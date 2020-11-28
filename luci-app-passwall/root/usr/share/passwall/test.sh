@@ -41,11 +41,11 @@ test_url() {
 test_proxy() {
 	local try=3
 	result=0
-	status=$(test_url "https://www.google.com/generate_204" $try)
+	status=$(test_url "https://www.google.com/generate_204" $try 5)
 	if [ "$status" = "200" ]; then
 		result=0
 	else
-		status2=$(test_url "https://www.baidu.com" $try)
+		status2=$(test_url "https://www.baidu.com" $try 5)
 		if [ "$status2" = "200" ]; then
 			result=1
 		else
@@ -83,7 +83,7 @@ test_auto_switch() {
 				local curlx="socks5h://127.0.0.1:$tmp_port"
 			fi
 			sleep 10s
-			proxy_status=$(test_url "https://www.google.com/generate_204" 3 3 "-x $curlx")
+			proxy_status=$(test_url "https://www.google.com/generate_204" 3 5 "-x $curlx")
 			ps -w | grep -v "grep" | grep "/var/etc/passwall/auto_switch_$index.json" | awk '{print $1}' | xargs kill -9 >/dev/null 2>&1
 			if [ "$proxy_status" -eq 200 ]; then
 				#主节点正常，切换到主节点
@@ -113,7 +113,7 @@ test_auto_switch() {
 				local curlx="socks5h://127.0.0.1:$tmp_port"
 			fi
 			sleep 10s
-			proxy_status=$(test_url "https://www.google.com/generate_204" 3 3 "-x $curlx")
+			proxy_status=$(test_url "https://www.google.com/generate_204" 3 5 "-x $curlx")
 			ps -w | grep -v "grep" | grep "/var/etc/passwall/auto_switch_$index.json" | awk '{print $1}' | xargs kill -9 >/dev/null 2>&1
 			if [ "$proxy_status" -eq 200 ]; then
 				#主节点正常，切换到主节点
