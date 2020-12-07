@@ -106,20 +106,4 @@ o:value("default", translate("Default"))
 o:value("1:65535", translate("All"))
 o:value("53", "53")
 
----- TCP Node
-o = s:option(Value, "tcp_node", translate("TCP Node"))
-o.default = "1"
-o.rmempty = false
-o:value("1")
-o:value("2")
-o:value("3")
-
----- UDP Node
-o = s:option(Value, "udp_node", translate("UDP Node"))
-o.default = "1"
-o.rmempty = false
-o:value("1")
-o:value("2")
-o:value("3")
-
 return m
