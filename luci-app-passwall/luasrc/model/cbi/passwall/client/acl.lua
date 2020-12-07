@@ -107,46 +107,19 @@ o:value("1:65535", translate("All"))
 o:value("53", "53")
 
 ---- TCP Node
-local tcp_node_num = tonumber(m:get("@global_other[0]", "tcp_node_num") or 1)
-for i = 1, tcp_node_num, 1 do
-    o = s:option("Value", "tcp_node" .. i, translate("TCP Node") .. " " .. i)
-    if i == 1 then
-        if tonumber(m:get("@auto_switch[0]", "enable") or 0) == 1 then
-            local current_node = luci.sys.exec(string.format("[ -f '/var/etc/%s/id/TCP_%s' ] && echo -n $(cat /var/etc/%s/id/TCP_%s)", appname, i, appname, i))
-            if current_node and current_node ~= "" and current_node ~= "nil" then
-                local e = uci:get_all(appname, current_node)
-                if e then
-                    local remarks = ""
-                    if e.protocol and (e.protocol == "_balancing" or e.protocol == "_shunt") then
-                        remarks = "%s：[%s] " % {translatef(e.type .. e.protocol), e.remarks}
-                    else
-                        if e.use_kcp and e.use_kcp == "1" then
-                            remarks = "%s+%s：[%s] %s" % {e.type, "Kcptun", e.remarks, e.address}
-                        else
-                            remarks = "%s：[%s] %s:%s" % {e.type, e.remarks, e.address, e.port}
-                        end
-                    end
-                    local url = d.build_url("admin", "services", appname, "node_config", current_node)
-                    o.description = translate("For proxy specific list.") .. "<br />" .. translatef("Current node: %s", string.format('<a href="%s">%s</a>', url, remarks))
-                end
-            end
-        end
-    end
-    o:value("nil", translate("Close"))
-    for k, v in pairs(nodes_table) do o:value(v.id, v.remarks) end
-end
+o = s:option(Value, "tcp_node", translate("TCP Node"))
+o.default = "1"
+o.rmempty = false
+o:value("1")
+o:value("2")
+o:value("3")
 
 ---- UDP Node
-local udp_node_num = tonumber(m:get("@global_other[0]", "udp_node_num") or 1)
-for i = 1, udp_node_num, 1 do
-    o = s:option("Value", "udp_node" .. i, translate("UDP Node") .. " " .. i)
-    o:value("nil", translate("Close"))
-    if i == 1 then
-        o:value("tcp_", translate("Same as the tcp node"))
-        --o:value("tcp", translate("Same as the tcp node"))
-        --o:value("tcp_", translate("Same as the tcp node") .. "（" .. translate("New process") .. "）")
-    end
-    for k, v in pairs(nodes_table) do o:value(v.id, v.remarks) end
-end
+o = s:option(Value, "udp_node", translate("UDP Node"))
+o.default = "1"
+o.rmempty = false
+o:value("1")
+o:value("2")
+o:value("3")
 
 return m
