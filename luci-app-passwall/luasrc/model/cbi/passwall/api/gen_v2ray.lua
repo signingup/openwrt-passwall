@@ -104,9 +104,6 @@ function gen_outbound(node, tag, relay_port)
                     header = {type = node.mkcp_guise}
                 } or nil,
                 wsSettings = (node.transport == "ws") and {
-                    -- workaround for tls_serverName in v2ray(trojan) configuration
-                    serverName = node.ws_host
-                    -- end workaround
                     path = node.ws_path or "",
                     headers = (node.ws_host ~= nil) and
                         {Host = node.ws_host} or nil
