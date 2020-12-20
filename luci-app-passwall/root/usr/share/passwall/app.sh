@@ -1121,6 +1121,9 @@ start_haproxy() {
 		    log         127.0.0.1 local2
 		    chroot      /usr/bin
 		    maxconn     60000
+		    nbproc          2
+		    cpu-map         1 0
+		    cpu-map         2 1		    
 		    stats socket  ${haproxy_path}/haproxy.sock
 		    user        root
 		    daemon
