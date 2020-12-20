@@ -1144,7 +1144,7 @@ start_haproxy() {
 		    timeout server          1m
 		    timeout http-keep-alive 10s
 		    timeout check           10s
-		    maxconn                 3000
+		    maxconn                 60000
 
 	EOF
 
