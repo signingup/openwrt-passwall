@@ -382,11 +382,11 @@ run_socks() {
 	;;
 	xray)
 		lua $API_GEN_XRAY -node $node -socks_proxy_port $socks_port > $config_file
-		ln_start_bin "$(first_type $(config_t_get global_app xray_file) xray)" xray $log_file -config="$config_file"
+		ln_start_bin "$(first_type $(config_t_get global_app xray_file)/xray  xray)" xray $log_file -config="$config_file"
 	;;
 	v2ray)
 		lua $API_GEN_XRAY -node $node -socks_proxy_port $socks_port > $config_file
-		ln_start_bin "$(first_type $(config_t_get global_app v2ray_file) v2ray)" v2ray $log_file -config="$config_file"
+		ln_start_bin "$(first_type $(config_t_get global_app v2ray_file)/v2ray v2ray)" v2ray $log_file -config="$config_file"
 	;;
 	trojan-go)
 		lua $API_GEN_TROJAN -node $node -run_type client -local_addr $bind -local_port $socks_port -server_host $server_host -server_port $port > $config_file
@@ -418,7 +418,7 @@ run_socks() {
 	[ "$http_port" != "0" ] && [ "$http_config_file" != "nil" ] && {
 		lua $API_GEN_XRAY_PROTO -local_proto http -local_address "0.0.0.0" -local_port $http_port -server_proto socks -server_address "127.0.0.1" -server_port $socks_port -server_username $_username -server_password $_password > $http_config_file
 		echo lua $API_GEN_XRAY_PROTO -local_proto http -local_address "0.0.0.0" -local_port $http_port -server_proto socks -server_address "127.0.0.1" -server_port $socks_port -server_username $_username -server_password $_password
-		ln_start_bin "$(first_type $(config_t_get global_app xray_file) xray)" xray $log_file -config="$http_config_file"
+		ln_start_bin "$(first_type $(config_t_get global_app xray_file)/xray xray)" xray $log_file -config="$http_config_file"
 	}
 	unset _username _password _auth
 }
@@ -467,12 +467,12 @@ run_redir() {
 		xray)
 			local loglevel=$(config_t_get global loglevel "warning")
 			lua $API_GEN_XRAY -node $node -proto udp -redir_port $local_port -loglevel $loglevel > $config_file
-			ln_start_bin "$(first_type $(config_t_get global_app xray_file) xray)" xray $log_file -config="$config_file"
+			ln_start_bin "$(first_type $(config_t_get global_app xray_file)/xray xray)" xray $log_file -config="$config_file"
 		;;
 		v2ray)
 			local loglevel=$(config_t_get global loglevel "warning")
 			lua $API_GEN_XRAY -node $node -proto udp -redir_port $local_port -loglevel $loglevel > $config_file
-			ln_start_bin "$(first_type $(config_t_get global_app v2ray_file) v2ray)" v2ray $log_file -config="$config_file"
+			ln_start_bin "$(first_type $(config_t_get global_app v2ray_file)/v2ray v2ray)" v2ray $log_file -config="$config_file"
 		;;
 		trojan-go)
 			local loglevel=$(config_t_get global trojan_loglevel "2")
@@ -534,14 +534,14 @@ run_redir() {
 			local extra_param="tcp"
 			[ "${index}" == 1 ] && [ "$UDP_NODE1" == "tcp" ] && extra_param="tcp,udp"
 			lua $API_GEN_XRAY -node $node -proto $extra_param -redir_port $local_port -loglevel $loglevel > $config_file
-			ln_start_bin "$(first_type $(config_t_get global_app xray_file) xray)" xray $log_file -config="$config_file"
+			ln_start_bin "$(first_type $(config_t_get global_app xray_file)/xray xray)" xray $log_file -config="$config_file"
 		;;
 		v2ray)
 			local loglevel=$(config_t_get global loglevel "warning")
 			local extra_param="tcp"
 			[ "${index}" == 1 ] && [ "$UDP_NODE1" == "tcp" ] && extra_param="tcp,udp"
 			lua $API_GEN_XRAY -node $node -proto $extra_param -redir_port $local_port -loglevel $loglevel > $config_file
-			ln_start_bin "$(first_type $(config_t_get global_app v2ray_file) v2ray)" v2ray $log_file -config="$config_file"
+			ln_start_bin "$(first_type $(config_t_get global_app v2ray_file)/v2ray v2ray)" v2ray $log_file -config="$config_file"
 		;;
 		trojan-go)
 			local loglevel=$(config_t_get global trojan_loglevel "2")
