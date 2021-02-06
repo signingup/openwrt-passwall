@@ -19,7 +19,7 @@ jobs:
     - name: Set git identity
       run : |
         # git config --global user.email "signingup"
-        # git config --global user.name "github-actions[bot]"
+        git config --global user.name "signingup"
     - name: Load upstream commits
       run: |
         git pull https://github.com/xiaorouji/openwrt-passwall.git --log --no-commit
